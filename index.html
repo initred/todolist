@@ -4,9 +4,77 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todolist</title>
+    <title>Javascript TodoList</title>
+    <link 
+        rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"
+        integrity="sha512-NmLkDIU1C/C88wi324HBc+S2kLhi08PN5GDeUVVVC/BVt/9Izdsc9SVeVfA1UZbY3sHUlDSyRXhCzHfr6hmPPw=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer" 
+    />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    나는 빡빡이다.
+  <div class="todolist-wrapper">
+      <h1>TodoList</h1>
+      <div class="todolist-add">
+          <input type="text" id="todo-input" value="">
+          <button type="button" onclick="add()">Add</button>
+      </div>
+      <div class="todolist" id="todo-list"></div>
+  </div>
+  <script>
+    const items = [
+        '첫번째',
+        '두번째',
+        '세번째'
+    ]
+    const todoInput = document.getElementById('todo-input')
+    const todoList = document.getElementById('todo-list')
+
+    function add () {
+        items.push(todoInput.value)
+        render()
+        emptyInput()
+    }
+
+    function remove (index) {
+        items.splice(index, 1)
+        render()
+    }
+
+    function emptyInput () {
+        todoInput.value = ''
+    }
+
+    function render () {
+        let html = ""
+
+        if(items.length > 0) {
+            // items 있을때
+            items.forEach(function(item, index) {
+                const node = `
+                    <div>
+                        <div>${index + 1}. ${item}</div>
+                        <button 
+                            type="button"
+                            onclick="remove(${index})"
+                        >
+                            Remove
+                        </button>
+                    </div>
+                `
+                html = html + node
+            })
+        } else {
+            // items 없을때
+            html = `<div>No TodoList</div>`
+        }
+
+        todoList.innerHTML = html
+    }
+
+    render()
+  </script>
 </body>
 </html>
